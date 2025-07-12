@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Sidebar from '@/components/layout/sidebar';
 import { Header } from '@/components/layout/header';
-import { MobileNav } from '@/components/layout/mobile-nav';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -25,7 +24,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       }`}>
         <Header 
           onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-          sidebarOpen={sidebarOpen}
         />
         
         <main className="py-6">

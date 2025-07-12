@@ -47,10 +47,10 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
               <AlertTriangle className="h-6 w-6 text-red-600" />
             </div>
             <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              Une erreur s'est produite
+              Oups ! Quelque chose s&apos;est mal passé
             </h2>
-            <p className="text-gray-600 mb-6">
-              Désolé, quelque chose s'est mal passé. Veuillez réessayer.
+            <p className="text-gray-600 mb-4">
+              Nous n&apos;avons pas pu charger cette page. Veuillez réessayer.
             </p>
             <div className="space-y-3">
               <Button onClick={this.resetError} className="w-full">
@@ -68,13 +68,16 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="mt-4 text-left">
                 <summary className="cursor-pointer text-sm text-gray-500">
-                  Détails de l'erreur (développement)
+                  Détails de l&apos;erreur (développement)
                 </summary>
                 <pre className="mt-2 text-xs text-red-600 bg-red-50 p-2 rounded overflow-auto">
                   {this.state.error.stack}
                 </pre>
               </details>
             )}
+            <p className="text-sm text-gray-500">
+              Si le problème persiste, contactez l&apos;équipe de support.
+            </p>
           </Card>
         </div>
       );

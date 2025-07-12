@@ -1,17 +1,18 @@
 'use client';
 
+import React from 'react'
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Message } from '@/types/message';
 import { User } from '@/types/user';
+import Image from 'next/image';
 
 interface ChatMessageProps {
   message: Message;
   currentUser: User;
-  isLastMessage?: boolean;
 }
 
-export function ChatMessage({ message, currentUser, isLastMessage = false }: ChatMessageProps) {
+export function ChatMessage({ message, currentUser }: ChatMessageProps) {
   const isOwnMessage = message.sender.id === currentUser.id;
   const isSystemMessage = message.type === 'system';
 
@@ -70,9 +71,11 @@ export function ChatMessage({ message, currentUser, isLastMessage = false }: Cha
             
             {message.type === 'image' && (
               <div className="max-w-xs">
-                <img
-                  src={message.content}
+                <Image
+                  src={message.content || ''}
                   alt="Image"
+                  width={400}
+                  height={300}
                   className="rounded-lg max-w-full h-auto"
                 />
               </div>

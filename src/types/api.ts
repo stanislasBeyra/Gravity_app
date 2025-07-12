@@ -1,4 +1,4 @@
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   statusCode: number
   message: string
   data?: T
@@ -37,7 +37,7 @@ export interface SearchParams {
 }
 
 export interface FilterParams extends SearchParams {
-  [key: string]: any
+  [key: string]: unknown
 }
 
 // Configuration API
@@ -51,7 +51,7 @@ export interface ApiConfig {
 export interface RequestConfig {
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   url: string
-  data?: any
-  params?: any
+  data?: unknown
+  params?: unknown
   headers?: Record<string, string>
 } 

@@ -24,7 +24,7 @@ interface NotificationState {
   updateSettings: (settings: Partial<NotificationSettings>) => void
 }
 
-export const useNotificationStore = create<NotificationState>((set, get) => ({
+export const useNotificationStore = create<NotificationState>((set) => ({
   notifications: [],
   unreadCount: 0,
   settings: null,

@@ -135,7 +135,7 @@ export function TaskForm({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Date d'échéance
+                Date d&apos;échéance
               </label>
               <DatePicker
                 value={dueDate}

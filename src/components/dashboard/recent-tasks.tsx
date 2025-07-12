@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { CheckSquare, Clock, User } from 'lucide-react';
+import { Clock, User } from 'lucide-react';
 
 export function RecentTasks() {
   const recentTasks = [
     {
       id: '1',
-      title: 'Créer la maquette de la page d\'accueil',
+      title: 'Créer la maquette de la page d&apos;accueil',
       status: 'En cours',
       assignee: 'John Doe',
       dueDate: '2024-02-15',
@@ -13,7 +13,7 @@ export function RecentTasks() {
     },
     {
       id: '2',
-      title: 'Implémenter l\'authentification',
+      title: 'Implémenter l&apos;authentification',
       status: 'À faire',
       assignee: 'Jane Smith',
       dueDate: '2024-02-20',

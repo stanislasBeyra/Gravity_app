@@ -69,7 +69,7 @@ export interface SocketNotification {
   type: NotificationType
   title: string
   message: string
-  data?: any
+  data?: unknown
   timestamp: string
 }
 

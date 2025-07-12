@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Calendar, User, AlertTriangle } from 'lucide-react';
 
 export default function CreateTaskPage() {
   const [formData, setFormData] = useState({
@@ -37,7 +36,9 @@ export default function CreateTaskPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Créer une tâche</h1>
-        <p className="text-gray-600">Créez une nouvelle tâche pour votre équipe</p>
+        <p className="text-sm text-gray-600">
+          Créez une nouvelle tâche pour votre projet
+        </p>
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
@@ -140,7 +141,7 @@ export default function CreateTaskPage() {
 
             <div>
               <label htmlFor="dueDate" className="block text-sm font-medium text-gray-700 mb-2">
-                Date d'échéance
+                Date d&apos;échéance
               </label>
               <input
                 id="dueDate"

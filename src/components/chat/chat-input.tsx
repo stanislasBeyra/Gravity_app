@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Paperclip, Image, Send, Smile } from 'lucide-react';
+import React, { useState, useRef } from 'react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Send, Paperclip, Smile } from 'lucide-react'
 
 interface ChatInputProps {
   onSendMessage: (content: string, type: 'text' | 'file' | 'image') => void;
@@ -95,7 +95,7 @@ export function ChatInput({
               className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
               disabled={disabled}
             >
-              <Image className="h-4 w-4" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-image h-4 w-4"><path d="M15.5 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0-3 3V8a3 3 0 1 0 3-3h12a3 3 0 1 0-3 3"/></svg>
             </button>
             
             <button

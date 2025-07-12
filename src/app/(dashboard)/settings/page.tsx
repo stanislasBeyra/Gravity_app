@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Bell, Moon, Sun, Globe, Shield, Palette } from 'lucide-react';
+import { Bell, Globe, Shield, Palette } from 'lucide-react';
 
 export default function SettingsPage() {
   const [darkMode, setDarkMode] = useState(false);
@@ -81,7 +81,7 @@ export default function SettingsPage() {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Langue de l'interface
+                Langue de l&apos;interface
               </label>
               <select
                 value={language}
@@ -104,7 +104,7 @@ export default function SettingsPage() {
           </div>
           <div className="space-y-4">
             <p className="text-sm text-gray-600">
-              Gérez vos paramètres de confidentialité et de sécurité.
+              Gérez vos préférences et paramètres de compte
             </p>
             <button className="text-blue-600 hover:text-blue-500 text-sm">
               Modifier les paramètres de confidentialité

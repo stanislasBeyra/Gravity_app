@@ -14,7 +14,7 @@ export default function NotificationsPage() {
       id: '2',
       type: 'warning',
       title: 'Échéance approche',
-      message: 'La tâche "Implémenter l\'authentification" est due dans 2 jours',
+      message: 'La tâche "Implémenter l&apos;authentification" est due dans 2 jours',
       time: 'Il y a 4 heures',
       read: false
     },
@@ -113,7 +113,9 @@ export default function NotificationsPage() {
         <div className="text-center py-12">
           <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">Aucune notification</h3>
-          <p className="text-gray-600">Vous n'avez aucune notification pour le moment</p>
+          <p className="text-gray-600">
+                    Vous n&apos;avez pas encore de notifications
+                  </p>
         </div>
       )}
     </div>

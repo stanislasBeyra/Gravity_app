@@ -151,7 +151,7 @@ export function TaskList({
           {filteredTasks.length} tâche{filteredTasks.length !== 1 ? 's' : ''} trouvée{filteredTasks.length !== 1 ? 's' : ''}
         </span>
         {searchQuery && (
-          <span>pour "{searchQuery}"</span>
+          <span>pour &quot;{searchQuery}&quot;</span>
         )}
       </div>
 

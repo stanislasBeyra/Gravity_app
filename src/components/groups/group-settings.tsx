@@ -1,13 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { Badge } from '@/components/ui/badge';
-import { Settings, Save, Trash2, AlertTriangle } from 'lucide-react';
+import React from 'react'
+import { Card} from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
+import { Textarea } from '@/components/ui/textarea'
+import { AlertTriangle, Save, Settings, Trash2 } from 'lucide-react'
 import { Group } from '@/types/group';
 
 interface GroupSettingsProps {
@@ -25,9 +24,9 @@ export function GroupSettings({
   loading = false, 
   className 
 }: GroupSettingsProps) {
-  const [name, setName] = useState(group.name);
-  const [description, setDescription] = useState(group.description || '');
-  const [status, setStatus] = useState(group.status || 'active');
+  const [name, setName] = React.useState(group.name);
+  const [description, setDescription] = React.useState(group.description || '');
+  const [status, setStatus] = React.useState(group.status || 'active');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

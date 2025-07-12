@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useRef, useCallback } from 'react';
-import { Upload, X, File, Image, FileText } from 'lucide-react';
+import { Upload, X, File, Image as ImageIcon, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import Image from 'next/image';
 
 interface FileUploadProps {
   onFilesSelected: (files: File[]) => void;
@@ -24,7 +25,7 @@ export function FileUpload({
   onFilesSelected,
   multiple = false,
   accept,
-  maxSize = 10, // 10MB default
+  maxSize = 10,
   maxFiles = 5,
   className = '',
   disabled = false
@@ -34,16 +35,16 @@ export function FileUpload({
   const [error, setError] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const validateFile = (file: File): string | null => {
-    if (maxSize && file.size > maxSize * 1024 * 1024) {
-      return `Le fichier ${file.name} est trop volumineux (max ${maxSize}MB)`;
-    }
-    return null;
-  };
-
   const processFiles = useCallback((fileList: FileList) => {
     const newFiles: FileWithPreview[] = [];
     const errors: string[] = [];
+
+    const validateFile = (file: File): string | null => {
+      if (maxSize && file.size > maxSize * 1024 * 1024) {
+        return `Le fichier ${file.name} est trop volumineux (max ${maxSize}MB)`;
+      }
+      return null;
+    };
 
     Array.from(fileList).forEach((file) => {
       const error = validateFile(file);
@@ -57,7 +58,6 @@ export function FileUpload({
         id: Math.random().toString(36).substr(2, 9)
       };
 
-      // Create preview for images
       if (file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -84,7 +84,7 @@ export function FileUpload({
     const updatedFiles = [...files, ...newFiles];
     setFiles(updatedFiles);
     onFilesSelected(updatedFiles);
-  }, [files, maxFiles, onFilesSelected]);
+  }, [files, maxFiles, maxSize, onFilesSelected]);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
@@ -96,7 +96,6 @@ export function FileUpload({
   const handleDrop = (event: React.DragEvent) => {
     event.preventDefault();
     setIsDragOver(false);
-    
     const fileList = event.dataTransfer.files;
     if (fileList) {
       processFiles(fileList);
@@ -121,7 +120,7 @@ export function FileUpload({
 
   const getFileIcon = (file: File) => {
     if (file.type.startsWith('image/')) {
-      return <Image className="h-8 w-8 text-blue-500" />;
+      return <ImageIcon className="h-8 w-8 text-blue-500" />;
     }
     if (file.type.includes('text') || file.type.includes('document')) {
       return <FileText className="h-8 w-8 text-green-500" />;
@@ -205,9 +204,11 @@ export function FileUpload({
               >
                 <div className="flex items-center space-x-3">
                   {file.preview ? (
-                    <img
+                    <Image
                       src={file.preview}
                       alt={file.name}
+                      width={32}
+                      height={32}
                       className="h-8 w-8 object-cover rounded"
                     />
                   ) : (
@@ -237,4 +238,4 @@ export function FileUpload({
       )}
     </div>
   );
-} 
+}

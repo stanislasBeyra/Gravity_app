@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, use } from 'react';
-import { Send, Paperclip, Smile, MoreVertical, Phone, Video, Users, ArrowLeft } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { Send, Paperclip, Smile, MoreVertical, Phone, Video, Users } from 'lucide-react';
 import BackButton from '@/components/common/back-button';
 
 interface GroupChatPageProps {
@@ -22,13 +21,13 @@ interface Message {
 }
 
 export default function GroupChatPage({ params }: GroupChatPageProps) {
-  const { id } = use(params);
+  use(params); // id non utilisé
   const [message, setMessage] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  // router non utilisé
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -42,7 +41,7 @@ export default function GroupChatPage({ params }: GroupChatPageProps) {
     {
       id: '2',
       user: 'Jane Smith',
-      content: 'Très bien, merci ! J\'ai terminé la maquette de la page d\'accueil. Qu\'est-ce que vous en pensez ?',
+      content: 'Très bien, merci ! J&apos;ai terminé la maquette de la page d&apos;accueil. Qu&apos;est-ce que vous en pensez ?',
       timestamp: '10:32',
       avatar: 'JS',
       isCurrentUser: false
@@ -66,7 +65,7 @@ export default function GroupChatPage({ params }: GroupChatPageProps) {
     {
       id: '5',
       user: 'Bob Johnson',
-      content: 'Hello ! Désolé pour le retard, j\'étais en réunion.',
+      content: 'Hello ! Désolé pour le retard, j&apos;étais en réunion.',
       timestamp: '10:37',
       avatar: 'BJ',
       isCurrentUser: false
@@ -287,7 +286,7 @@ export default function GroupChatPage({ params }: GroupChatPageProps) {
           {/* Message input */}
           <div className="flex-1 relative">
             <textarea
-              ref={inputRef as any}
+              ref={inputRef}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Tapez votre message..."
@@ -306,7 +305,41 @@ export default function GroupChatPage({ params }: GroupChatPageProps) {
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
-                  handleSendMessage(e as any);
+                  if (message.trim()) {
+                    const newMessage: Message = {
+                      id: Date.now().toString(),
+                      user: 'Vous',
+                      content: message.trim(),
+                      timestamp: new Date().toLocaleTimeString('fr-FR', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                      }),
+                      avatar: 'VO',
+                      isCurrentUser: true
+                    };
+                    
+                    setMessages(prev => [...prev, newMessage]);
+                    setMessage('');
+                    
+                    // Simulate typing indicator
+                    setIsTyping(true);
+                    setTimeout(() => {
+                      setIsTyping(false);
+                      // Simulate response
+                      const response: Message = {
+                        id: (Date.now() + 1).toString(),
+                        user: 'John Doe',
+                        content: 'Merci pour le message !',
+                        timestamp: new Date().toLocaleTimeString('fr-FR', { 
+                          hour: '2-digit', 
+                          minute: '2-digit' 
+                        }),
+                        avatar: 'JD',
+                        isCurrentUser: false
+                      };
+                      setMessages(prev => [...prev, response]);
+                    }, 2000);
+                  }
                 }
               }}
             />

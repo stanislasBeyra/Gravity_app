@@ -1,21 +1,21 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { api } from '@/lib/api'
-import { ApiResponse, RequestConfig } from '@/types/api'
+
 import toast from 'react-hot-toast'
 
 interface UseApiQueryOptions<T> {
   queryKey: string[]
   url: string
-  params?: any
+  params?: Record<string, unknown>
   enabled?: boolean
   staleTime?: number
   refetchInterval?: number
   onSuccess?: (data: T) => void
-  onError?: (error: any) => void
+  onError?: (error: unknown) => void
 }
 
-export function useApiQuery<T = any>({
+export function useApiQuery<T = unknown>({
   queryKey,
   url,
   params,
@@ -48,17 +48,17 @@ export function useApiQuery<T = any>({
   return query
 }
 
-interface UseApiMutationOptions<TData = any, TVariables = any> {
+interface UseApiMutationOptions<TData = unknown, TVariables = unknown> {
   url: string
   method?: 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   onSuccess?: (data: TData, variables: TVariables) => void
-  onError?: (error: any) => void
+  onError?: (error: unknown) => void
   successMessage?: string
   errorMessage?: string
   invalidateQueries?: string[][]
 }
 
-export function useApiMutation<TData = any, TVariables = any>({
+export function useApiMutation<TData = unknown, TVariables = unknown>({
   url,
   method = 'POST',
   onSuccess,
@@ -71,11 +71,7 @@ export function useApiMutation<TData = any, TVariables = any>({
 
   return useMutation({
     mutationFn: (variables: TVariables) => {
-      const config: RequestConfig = {
-        method,
-        url,
-        data: variables,
-      }
+
       
       switch (method) {
         case 'POST':
@@ -103,7 +99,7 @@ export function useApiMutation<TData = any, TVariables = any>({
         
         onSuccess?.(response.data.data, variables)
       } else if (error) {
-        const message = (error as any).response?.data?.message || errorMessage || 'Une erreur est survenue'
+        const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || errorMessage || 'Une erreur est survenue'
         toast.error(message)
         onError?.(error)
       }

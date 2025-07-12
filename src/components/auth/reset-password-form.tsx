@@ -1,25 +1,22 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Eye, EyeOff, Lock, CheckCircle } from 'lucide-react';
 
-export function ResetPasswordForm() {
+export default function ResetPasswordForm() {
+  const router = useRouter();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token');
-
   const validateForm = () => {
     if (password.length < 8) {
       setError('Le mot de passe doit contenir au moins 8 caractères');
@@ -43,18 +40,19 @@ export function ResetPasswordForm() {
     try {
       // Simuler la réinitialisation
       await new Promise(resolve => setTimeout(resolve, 1000));
-      setIsSuccess(true);
+      setIsSubmitted(true);
       setTimeout(() => {
         router.push('/login');
       }, 2000);
     } catch (err) {
-      setError('Erreur lors de la réinitialisation. Veuillez réessayer.');
+      console.error('Erreur de réinitialisation:', err);
+      setError('Erreur lors de la réinitialisation');
     } finally {
       setIsLoading(false);
     }
   };
 
-  if (isSuccess) {
+  if (isSubmitted) {
     return (
       <Card className="w-full max-w-md p-6 space-y-6">
         <div className="text-center space-y-2">

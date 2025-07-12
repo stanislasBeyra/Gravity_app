@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Users, X, ArrowLeft, Check } from 'lucide-react';
+import { Users, X, Check } from 'lucide-react';
 import BackButton from '@/components/common/back-button';
 
 export default function CreateGroupPage() {
@@ -218,7 +218,7 @@ export default function CreateGroupPage() {
               </h4>
               <ul className="text-xs text-blue-800 space-y-1">
                 <li>• Choisissez un nom court et descriptif</li>
-                <li>• La description aide les membres à comprendre l'objectif</li>
+                <li>• La description aide les membres à comprendre l&apos;objectif</li>
                 <li>• Les couleurs aident à identifier rapidement les groupes</li>
               </ul>
             </div>

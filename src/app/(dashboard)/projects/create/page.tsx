@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Folder, Calendar, Users } from 'lucide-react';
 
 export default function CreateProjectPage() {
   const [formData, setFormData] = useState({

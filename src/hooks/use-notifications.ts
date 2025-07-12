@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { notificationsApi } from '@/lib/api'
 import { useNotificationStore } from '@/store/notification-store'
-import { NotificationSearchFilters, UpdateNotificationSettingsData } from '@/types/notification'
+import { UpdateNotificationSettingsData } from '@/types/notification'
 import toast from 'react-hot-toast'
 
 export function useNotifications() {
@@ -95,13 +95,14 @@ export function useNotifications() {
   })
 
   const updateSettingsMutation = useMutation({
-    mutationFn: (data: UpdateNotificationSettingsData) => notificationsApi.updateSettings(data),
+    mutationFn: (data: UpdateNotificationSettingsData) =>
+      notificationsApi.updateSettings(data as Record<string, unknown>),
     onSettled: (response, error) => {
       if (!error && response) {
         setSettings(response.data.data)
         toast.success('Paramètres mis à jour')
       } else if (error) {
-        toast.error((error as any).response?.data?.message || 'Erreur lors de la mise à jour')
+        toast.error((error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Erreur lors de la mise à jour')
       }
     },
   })

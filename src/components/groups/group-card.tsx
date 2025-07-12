@@ -37,14 +37,7 @@ export function GroupCard({
     return <Badge variant="success">Actif</Badge>;
   };
 
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(word => word.charAt(0))
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  };
+
 
   return (
     <Card 
@@ -105,11 +98,11 @@ export function GroupCard({
         
         {group.members && group.members.length > 0 && (
           <div className="flex -space-x-2">
-            {group.members.slice(0, 5).map((member, index) => (
-              <Avatar key={member.id} className="h-8 w-8 border-2 border-white">
-                <AvatarImage src={member.user.avatar} alt={member.user.firstname} />
+            {group.members.slice(0, 3).map((member) => (
+              <Avatar key={member.id} className="h-6 w-6 -ml-1 border-2 border-white">
+                <AvatarImage src={member.user.avatar} alt={`${member.user.firstname} ${member.user.lastname}`} />
                 <AvatarFallback className="text-xs">
-                  {getInitials(`${member.user.firstname} ${member.user.lastname}`)}
+                  {member.user.firstname.charAt(0)}
                 </AvatarFallback>
               </Avatar>
             ))}

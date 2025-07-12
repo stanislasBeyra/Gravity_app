@@ -1,25 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import { Check, ChevronsUpDown, Search } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import React from 'react'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
+import { Check, ChevronsUpDown } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { UserAvatar } from './user-avatar';
 import { User } from '@/types/user';
-import { cn } from '@/lib/utils';
 
 interface UserSelectProps {
   users: User[];
@@ -38,8 +26,8 @@ export function UserSelect({
   disabled = false,
   className
 }: UserSelectProps) {
-  const [open, setOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [open, setOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   const selectedUser = users.find(user => user.id === value);
   const filteredUsers = users.filter(user =>

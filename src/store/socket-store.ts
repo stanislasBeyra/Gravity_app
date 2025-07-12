@@ -5,10 +5,10 @@ interface SocketStore extends SocketState {
   // Actions de connexion
   setConnectionStatus: (status: ConnectionStatus) => void
   setConnected: (connected: boolean) => void
-  setError: (error: string | null) => void
+  setError: (error: string | undefined) => void
   incrementReconnectAttempts: () => void
   resetReconnectAttempts: () => void
-  setLastConnected: (timestamp: string) => void
+  setLastConnected: (timestamp: string | undefined) => void
   
   // Actions pour les salons
   joinedRooms: Set<string>
@@ -17,9 +17,9 @@ interface SocketStore extends SocketState {
   clearJoinedRooms: () => void
   
   // Utilisateurs en ligne
-  onlineUsers: Map<string, any>
-  setOnlineUsers: (users: Map<string, any>) => void
-  addOnlineUser: (userId: string, user: any) => void
+  onlineUsers: Map<string, { id: string; name: string; avatar?: string }>
+  setOnlineUsers: (users: Map<string, { id: string; name: string; avatar?: string }>) => void
+  addOnlineUser: (userId: string, user: { id: string; name: string; avatar?: string }) => void
   removeOnlineUser: (userId: string) => void
   
   // Utilisateurs en train de taper
@@ -32,8 +32,8 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
   // État initial
   isConnected: false,
   connectionStatus: 'disconnected',
-  error: null,
-  lastConnected: null,
+  error: undefined,
+  lastConnected: undefined,
   reconnectAttempts: 0,
   joinedRooms: new Set(),
   onlineUsers: new Map(),
@@ -48,16 +48,11 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
     set({ 
       isConnected: connected,
       connectionStatus: connected ? 'connected' : 'disconnected',
-      error: connected ? null : get().error,
+      error: connected ? undefined : get().error,
     })
   },
 
-  setError: (error) => {
-    set({ 
-      error,
-      connectionStatus: error ? 'error' : get().connectionStatus,
-    })
-  },
+  setError: (error: string | undefined) => set({ error }),
 
   incrementReconnectAttempts: () => {
     set((state) => ({ reconnectAttempts: state.reconnectAttempts + 1 }))
@@ -67,9 +62,7 @@ export const useSocketStore = create<SocketStore>((set, get) => ({
     set({ reconnectAttempts: 0 })
   },
 
-  setLastConnected: (timestamp) => {
-    set({ lastConnected: timestamp })
-  },
+  setLastConnected: (timestamp: string | undefined) => set({ lastConnected: timestamp }),
 
   // Actions pour les salons
   addJoinedRoom: (room) => {

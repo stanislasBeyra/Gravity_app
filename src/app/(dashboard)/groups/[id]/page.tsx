@@ -19,7 +19,7 @@ export default function GroupPage({ params }: GroupPageProps) {
   const mockGroup = {
     id: id,
     name: 'Équipe Marketing',
-    description: 'Groupe pour l\'équipe marketing et communication',
+    description: 'Groupe pour l&apos;équipe marketing et communication',
     memberCount: 8,
     createdAt: '2024-01-15',
     color: 'bg-blue-500',
@@ -217,7 +217,7 @@ export default function GroupPage({ params }: GroupPageProps) {
             {/* Voir plus - mobile */}
             <div className="mt-4 sm:hidden">
               <button className="w-full text-center text-sm text-blue-600 hover:text-blue-500 font-medium">
-                Voir plus d'activités
+                Voir plus d&apos;activités
               </button>
             </div>
           </div>
@@ -264,7 +264,7 @@ export default function GroupPage({ params }: GroupPageProps) {
             </h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">Messages aujourd'hui</span>
+                <span className="text-sm text-gray-600">Messages aujourd&apos;hui</span>
                 <span className="text-sm font-medium text-gray-900">12</span>
               </div>
               <div className="flex justify-between items-center">

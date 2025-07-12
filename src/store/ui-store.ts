@@ -34,8 +34,8 @@ interface UIState {
   setSearchQuery: (key: string, query: string) => void
   clearSearchQuery: (key: string) => void
   
-  filters: Record<string, any>
-  setFilter: (key: string, value: any) => void
+  filters: Record<string, unknown>
+  setFilter: (key: string, value: unknown) => void
   clearFilter: (key: string) => void
   clearAllFilters: () => void
   

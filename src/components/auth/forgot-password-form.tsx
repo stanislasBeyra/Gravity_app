@@ -23,7 +23,8 @@ export function ForgotPasswordForm() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       setIsSubmitted(true);
     } catch (err) {
-      setError('Erreur lors de l\'envoi de l\'email. Veuillez réessayer.');
+      console.error('Erreur d\'envoi:', err);
+      setError('Erreur lors de l\'envoi de l\'email');
     } finally {
       setIsLoading(false);
     }

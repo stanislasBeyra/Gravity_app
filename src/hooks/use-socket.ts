@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback } from 'react'
 import { useAuthStore } from '@/store/auth-store'
 import { socketManager } from '@/lib/socket'
 import { Socket } from 'socket.io-client'
-import { SocketEvents, SocketMessage, TypingData, ConnectedUser } from '@/types/socket'
+import { SocketMessage, TypingData, ConnectedUser } from '@/types/socket'
 
 export function useSocket() {
   const { token, isAuthenticated } = useAuthStore()
@@ -48,26 +48,26 @@ export function useSocket() {
   }, [])
 
   const onGroupMessage = useCallback((callback: (message: SocketMessage) => void) => {
-    socketManager.onGroupMessage(callback)
+    socketManager.onGroupMessage((msg: unknown) => callback(msg as SocketMessage))
   }, [])
 
   const onProjectMessage = useCallback((callback: (message: SocketMessage) => void) => {
-    socketManager.onProjectMessage(callback)
+    socketManager.onProjectMessage((msg: unknown) => callback(msg as SocketMessage))
   }, [])
 
   const onUserTyping = useCallback((callback: (data: TypingData) => void) => {
-    socketManager.onUserTyping(callback)
+    socketManager.onUserTyping((data: unknown) => callback(data as TypingData))
   }, [])
 
   const onUserConnected = useCallback((callback: (user: ConnectedUser) => void) => {
-    socketManager.onUserConnected(callback)
+    socketManager.onUserConnected((user: unknown) => callback(user as ConnectedUser))
   }, [])
 
-  const onUserDisconnected = useCallback((callback: (user: any) => void) => {
-    socketManager.onUserDisconnected(callback)
+  const onUserDisconnected = useCallback((callback: (user: ConnectedUser) => void) => {
+    socketManager.onUserDisconnected((user: unknown) => callback(user as ConnectedUser))
   }, [])
 
-  const onNotification = useCallback((callback: (notification: any) => void) => {
+  const onNotification = useCallback((callback: (notification: { id: string; message: string; type: string }) => void) => {
     socketManager.onNotification(callback)
   }, [])
 

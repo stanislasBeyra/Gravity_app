@@ -60,7 +60,8 @@ export function RegisterForm() {
       });
       router.push('/dashboard');
     } catch (err) {
-      setError('Erreur lors de l\'inscription. Veuillez réessayer.');
+      console.error('Erreur d\'inscription:', err);
+      setError('Erreur lors de l\'inscription');
     } finally {
       setIsLoading(false);
     }

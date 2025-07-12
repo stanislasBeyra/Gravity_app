@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Plus, CheckCircle, Clock, AlertCircle, User } from 'lucide-react';
+import { Plus, CheckCircle, Clock, User } from 'lucide-react';
 
 export default function TasksPage() {
   const mockTasks = [

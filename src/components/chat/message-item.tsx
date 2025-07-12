@@ -17,7 +17,6 @@ import { useAuth } from '@/hooks/use-auth';
 
 interface MessageItemProps {
   message: Message;
-  currentUser?: User;
   onReply?: (message: Message) => void;
   onEdit?: (message: Message) => void;
   onDelete?: (message: Message) => void;
@@ -28,7 +27,6 @@ interface MessageItemProps {
 
 export function MessageItem({
   message,
-  currentUser,
   onReply,
   onEdit,
   onDelete,
@@ -79,7 +77,7 @@ export function MessageItem({
     }
   };
 
-  const getSenderName = (sender: any) => {
+  const getSenderName = (sender: User) => {
     return sender.name || `${sender.firstname} ${sender.lastname}`;
   };
 

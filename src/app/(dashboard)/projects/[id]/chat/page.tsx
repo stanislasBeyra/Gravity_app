@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, use } from 'react';
-import { Send, Paperclip, Smile, Users, X, Phone, Video, MoreVertical, Settings } from 'lucide-react';
+import { Send, Paperclip, Smile, Users, X, Phone, Video, MoreVertical } from 'lucide-react';
 import BackButton from '@/components/common/back-button';
 
 interface ProjectChatPageProps {
@@ -28,7 +28,7 @@ interface User {
 }
 
 export default function ProjectChatPage({ params }: ProjectChatPageProps) {
-  const { id } = use(params);
+  use(params); // id non utilisé
   const [message, setMessage] = useState('');
   const [showSidebar, setShowSidebar] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -40,7 +40,7 @@ export default function ProjectChatPage({ params }: ProjectChatPageProps) {
     {
       id: '1',
       user: 'John Doe',
-      content: 'Salut l\'équipe ! Comment avance le développement de la page d\'accueil ?',
+      content: 'Salut l&apos;équipe ! Comment avance le développement de la page d&apos;accueil ?',
       timestamp: '10:30',
       avatar: 'JD',
       isCurrentUser: false
@@ -48,7 +48,7 @@ export default function ProjectChatPage({ params }: ProjectChatPageProps) {
     {
       id: '2',
       user: 'Jane Smith',
-      content: 'J\'ai terminé la maquette de la page d\'accueil. Je l\'ai envoyée pour validation.',
+      content: 'J&apos;ai terminé la maquette de la page d&apos;accueil. Je l&apos;ai envoyée pour validation.',
       timestamp: '10:32',
       avatar: 'JS',
       isCurrentUser: false
@@ -56,7 +56,7 @@ export default function ProjectChatPage({ params }: ProjectChatPageProps) {
     {
       id: '3',
       user: 'Vous',
-      content: 'Parfait ! Je vais commencer l\'implémentation dès que j\'aurai la validation.',
+      content: 'Parfait ! Je vais commencer l&apos;implémentation dès que j&apos;aurai la validation.',
       timestamp: '10:35',
       avatar: 'VO',
       isCurrentUser: true
@@ -64,7 +64,7 @@ export default function ProjectChatPage({ params }: ProjectChatPageProps) {
     {
       id: '4',
       user: 'Alice Brown',
-      content: 'J\'ai configuré la base de données. L\'API est prête pour l\'intégration.',
+      content: 'J&apos;ai configuré la base de données. L&apos;API est prête pour l&apos;intégration.',
       timestamp: '10:40',
       avatar: 'AB',
       isCurrentUser: false
@@ -139,7 +139,9 @@ export default function ProjectChatPage({ params }: ProjectChatPageProps) {
   const handleEmojiClick = (emoji: string) => {
     setMessage(prev => prev + emoji);
     setShowEmojiPicker(false);
-    inputRef.current?.focus();
+    if (inputRef.current) {
+      (inputRef.current as HTMLTextAreaElement).focus();
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -336,7 +338,7 @@ export default function ProjectChatPage({ params }: ProjectChatPageProps) {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                       e.preventDefault();
-                      handleSendMessage(e as any);
+                      handleSendMessage(e as React.KeyboardEvent<HTMLTextAreaElement>);
                     }
                   }}
                 />

@@ -1,173 +1,153 @@
 'use client';
 
-import { useState } from 'react';
-import { Card } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Bell, Save, TestTube } from 'lucide-react';
+import React from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Bell } from 'lucide-react'
 
 interface NotificationSettingsProps {
   settings: {
-    email: boolean;
-    push: boolean;
-    inApp: boolean;
-    taskUpdates: boolean;
-    projectUpdates: boolean;
-    mentions: boolean;
-    messages: boolean;
-  };
-  onSave: (settings: any) => void;
-  onTest?: () => void;
-  loading?: boolean;
-  className?: string;
+    email: boolean
+    push: boolean
+    desktop: boolean
+    sound: boolean
+    mentions: boolean
+    frequency: 'immediate' | 'hourly' | 'daily'
+  }
+  onSettingsChange: (settings: Record<string, unknown>) => void
+  className?: string
 }
 
 export function NotificationSettings({
   settings,
-  onSave,
-  onTest,
-  loading = false,
+  onSettingsChange,
   className
 }: NotificationSettingsProps) {
-  const [localSettings, setLocalSettings] = useState(settings);
-
-  const handleToggle = (key: string) => {
-    setLocalSettings(prev => ({
-      ...prev,
-      [key]: !prev[key as keyof typeof prev]
-    }));
-  };
-
-  const handleSave = () => {
-    onSave(localSettings);
-  };
+  const handleSettingChange = (key: string, value: boolean | string) => {
+    const newSettings = { ...settings, [key]: value }
+    onSettingsChange(newSettings)
+  }
 
   return (
-    <div className={`space-y-6 ${className}`}>
-      <div className="flex items-center gap-2">
-        <Bell className="h-5 w-5 text-gray-600" />
-        <h1 className="text-xl font-semibold">Paramètres de notifications</h1>
-      </div>
-
-      <div className="space-y-6">
-        {/* Notification Channels */}
-        <Card className="p-6">
-          <h2 className="text-lg font-semibold mb-4">Canaux de notification</h2>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Notifications par email</div>
-                <div className="text-sm text-gray-500">
-                  Recevoir les notifications par email
-                </div>
-              </div>
-              <Switch
-                checked={localSettings.email}
-                onCheckedChange={() => handleToggle('email')}
-              />
+    <Card className={className}>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Bell className="h-5 w-5" />
+          Paramètres de notifications
+        </CardTitle>
+        <CardDescription>
+          Configurez vos préférences de notifications
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {/* Notifications par email */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <Label htmlFor="email-notifications">Notifications par email</Label>
+              <p className="text-sm text-muted-foreground">
+                Recevez les notifications par email
+              </p>
             </div>
-
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Notifications push</div>
-                <div className="text-sm text-gray-500">
-                  Recevoir les notifications push sur votre appareil
-                </div>
-              </div>
-              <Switch
-                checked={localSettings.push}
-                onCheckedChange={() => handleToggle('push')}
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Notifications dans l'app</div>
-                <div className="text-sm text-gray-500">
-                  Afficher les notifications dans l'application
-                </div>
-              </div>
-              <Switch
-                checked={localSettings.inApp}
-                onCheckedChange={() => handleToggle('inApp')}
-              />
-            </div>
+            <Switch
+              id="email-notifications"
+              checked={settings.email}
+              onCheckedChange={(checked) => handleSettingChange('email', checked)}
+            />
           </div>
-        </Card>
-
-        {/* Notification Types */}
-        <Card className="p-6">
-          <h2 className="text-lg font-semibold mb-4">Types de notifications</h2>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Mises à jour de tâches</div>
-                <div className="text-sm text-gray-500">
-                  Notifications lors de changements de statut de tâches
-                </div>
-              </div>
-              <Switch
-                checked={localSettings.taskUpdates}
-                onCheckedChange={() => handleToggle('taskUpdates')}
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Mises à jour de projets</div>
-                <div className="text-sm text-gray-500">
-                  Notifications lors de changements dans les projets
-                </div>
-              </div>
-              <Switch
-                checked={localSettings.projectUpdates}
-                onCheckedChange={() => handleToggle('projectUpdates')}
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Mentions</div>
-                <div className="text-sm text-gray-500">
-                  Notifications quand quelqu'un vous mentionne
-                </div>
-              </div>
-              <Switch
-                checked={localSettings.mentions}
-                onCheckedChange={() => handleToggle('mentions')}
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Messages</div>
-                <div className="text-sm text-gray-500">
-                  Notifications pour les nouveaux messages
-                </div>
-              </div>
-              <Switch
-                checked={localSettings.messages}
-                onCheckedChange={() => handleToggle('messages')}
-              />
-            </div>
-          </div>
-        </Card>
-
-        {/* Actions */}
-        <div className="flex gap-3">
-          <Button onClick={handleSave} disabled={loading}>
-            <Save className="h-4 w-4 mr-2" />
-            {loading ? 'Enregistrement...' : 'Enregistrer'}
-          </Button>
-          {onTest && (
-            <Button variant="outline" onClick={onTest}>
-              <TestTube className="h-4 w-4 mr-2" />
-              Tester les notifications
-            </Button>
-          )}
         </div>
-      </div>
-    </div>
-  );
+
+        {/* Notifications push */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <Label htmlFor="push-notifications">Notifications push</Label>
+              <p className="text-sm text-muted-foreground">
+                Recevez les notifications push sur votre appareil
+              </p>
+            </div>
+            <Switch
+              id="push-notifications"
+              checked={settings.push}
+              onCheckedChange={(checked) => handleSettingChange('push', checked)}
+            />
+          </div>
+        </div>
+
+        {/* Notifications desktop */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <Label htmlFor="desktop-notifications">Notifications desktop</Label>
+              <p className="text-sm text-muted-foreground">
+                Affichez les notifications sur votre bureau
+              </p>
+            </div>
+            <Switch
+              id="desktop-notifications"
+              checked={settings.desktop}
+              onCheckedChange={(checked) => handleSettingChange('desktop', checked)}
+            />
+          </div>
+        </div>
+
+        {/* Sons de notification */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <Label htmlFor="sound-notifications">Sons de notification</Label>
+              <p className="text-sm text-muted-foreground">
+                Jouez un son pour les nouvelles notifications
+              </p>
+            </div>
+            <Switch
+              id="sound-notifications"
+              checked={settings.sound}
+              onCheckedChange={(checked) => handleSettingChange('sound', checked)}
+            />
+          </div>
+        </div>
+
+        {/* Mentions */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <Label htmlFor="mention-notifications">Notifications de mentions</Label>
+              <p className="text-sm text-muted-foreground">
+                Soyez notifié quand quelqu&apos;un vous mentionne
+              </p>
+            </div>
+            <Switch
+              id="mention-notifications"
+              checked={settings.mentions}
+              onCheckedChange={(checked) => handleSettingChange('mentions', checked)}
+            />
+          </div>
+        </div>
+
+        {/* Fréquence */}
+        <div className="space-y-2">
+          <Label htmlFor="notification-frequency">Fréquence des notifications</Label>
+          <Select
+            value={settings.frequency}
+            onValueChange={(value) => handleSettingChange('frequency', value)}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="immediate">Immédiat</SelectItem>
+              <SelectItem value="hourly">Toutes les heures</SelectItem>
+              <SelectItem value="daily">Quotidien</SelectItem>
+            </SelectContent>
+          </Select>
+          <p className="text-sm text-muted-foreground">
+            Choisissez la fréquence de vos notifications
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  )
 } 

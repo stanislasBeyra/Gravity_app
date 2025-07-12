@@ -1,10 +1,10 @@
 'use client';
 
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Calendar, Clock, User, Edit, MessageSquare } from 'lucide-react';
+import React from 'react'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { User, MessageSquare, Edit } from 'lucide-react'
 import { TaskStatusBadge } from './task-status-badge';
 import { TaskPriorityBadge } from './task-priority-badge';
 import { Task, TaskStatus } from '@/types/task';

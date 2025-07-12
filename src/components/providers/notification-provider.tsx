@@ -2,18 +2,19 @@
 
 import { createContext, useContext, ReactNode } from 'react';
 import { useNotifications } from '@/hooks/use-notifications';
+import { Notification, NotificationSettings } from '@/types/notification';
 
 interface NotificationContextType {
-  notifications: any[];
+  notifications: Notification[];
   unreadCount: number;
-  settings: any;
+  settings: NotificationSettings | null;
   isLoading: boolean;
-  addNotification: (notification: any) => void;
+  addNotification: (notification: Notification) => void;
   markAsRead: (id: string) => void;
   markAllAsRead: () => void;
   deleteNotification: (id: string) => void;
   deleteAllNotifications: () => void;
-  updateSettings: (data: any) => void;
+  updateSettings: (data: Partial<NotificationSettings>) => void;
   isMarkingAsRead: boolean;
   isUpdatingSettings: boolean;
 }

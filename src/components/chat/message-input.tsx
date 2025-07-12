@@ -6,7 +6,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Send, Paperclip, Smile, X } from 'lucide-react';
-import { useAuth } from '@/hooks/use-auth';
 import { Message } from '@/types/message';
 
 interface MessageInputProps {
@@ -30,7 +29,7 @@ export function MessageInput({
   const [attachments, setAttachments] = useState<File[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { user } = useAuth();
+
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -85,8 +84,8 @@ export function MessageInput({
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const getSenderName = (sender: any) => {
-    return sender.name || `${sender.firstname} ${sender.lastname}`;
+  const getSenderName = (sender: { name?: string; firstname?: string; lastname?: string }) => {
+    return sender.name || `${sender.firstname ?? ''} ${sender.lastname ?? ''}`.trim();
   };
 
   return (

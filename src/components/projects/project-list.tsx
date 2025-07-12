@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Search, Filter, FolderOpen } from 'lucide-react';
+import { Plus, Search, FolderOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { ProjectCard } from './project-card';
 import { EmptyState } from '@/components/common/empty-state';
 import { Project } from '@/types/project';
@@ -111,7 +110,7 @@ export function ProjectList({
           {filteredProjects.length} projet{filteredProjects.length !== 1 ? 's' : ''} trouvé{filteredProjects.length !== 1 ? 's' : ''}
         </span>
         {searchQuery && (
-          <span>pour "{searchQuery}"</span>
+          <span>pour &quot;{searchQuery}&quot;</span>
         )}
       </div>
 
@@ -132,8 +131,8 @@ export function ProjectList({
           title="Aucun projet trouvé"
           description={
             searchQuery
-              ? `Aucun projet ne correspond à "${searchQuery}"`
-              : "Vous n'avez pas encore créé de projets"
+              ? `Aucun projet ne correspond à &quot;${searchQuery}&quot;`
+              : "Vous n&apos;avez pas encore créé de projets"
           }
           actionLabel={onCreateProject ? "Créer un projet" : undefined}
           onAction={onCreateProject}

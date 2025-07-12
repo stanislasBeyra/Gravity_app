@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Eye, EyeOff, Mail, Lock, User, CheckCircle } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -109,9 +109,9 @@ export default function RegisterPage() {
           className="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
         />
         <label className="ml-2 text-sm text-gray-600">
-          J'accepte les{' '}
+          J&apos;accepte les{' '}
           <Link href="/terms" className="text-blue-600 hover:text-blue-500">
-            conditions d'utilisation
+            conditions d&apos;utilisation
           </Link>{' '}
           et la{' '}
           <Link href="/privacy" className="text-blue-600 hover:text-blue-500">

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Plus, Users, Folder, CheckSquare } from 'lucide-react';
+import { Users, Folder, CheckSquare } from 'lucide-react';
 
 export function QuickActions() {
   const actions = [

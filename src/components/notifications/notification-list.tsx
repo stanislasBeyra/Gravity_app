@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Bell, Check, Trash2, Settings } from 'lucide-react';
+import { Bell, Check, Trash2 } from 'lucide-react';
 import { NotificationItem } from './notification-item';
 import { Notification } from '@/types/notification';
 

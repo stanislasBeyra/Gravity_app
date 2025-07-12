@@ -18,7 +18,7 @@ export function useAuth() {
       toast.success('Connexion réussie')
       router.push('/dashboard')
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error.response?.data?.message || 'Erreur de connexion')
     },
   })
@@ -29,7 +29,7 @@ export function useAuth() {
       toast.success('Inscription réussie. Vous pouvez maintenant vous connecter.')
       router.push('/login')
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error.response?.data?.message || 'Erreur d\'inscription')
     },
   })
@@ -54,7 +54,7 @@ export function useAuth() {
     onSuccess: () => {
       toast.success('Mot de passe modifié avec succès')
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error.response?.data?.message || 'Erreur lors du changement de mot de passe')
     },
   })

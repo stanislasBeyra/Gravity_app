@@ -31,7 +31,7 @@ export function UserAvatar({ user, size = 'md', showName = false, className }: U
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <Avatar className={sizeClasses[size]}>
-        <AvatarImage src={user.avatar} alt={fullName} />
+        <AvatarImage src={user.avatar} alt={`${user.firstname} ${user.lastname}`} />
         <AvatarFallback>
           {getInitials(fullName)}
         </AvatarFallback>

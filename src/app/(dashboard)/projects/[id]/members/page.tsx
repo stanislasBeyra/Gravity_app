@@ -1,6 +1,6 @@
 'use client';
 
-import { Users, Plus, Mail, Phone, Calendar, Search, Filter, MoreVertical, MessageSquare, Crown, Shield, User as UserIcon, TrendingUp } from 'lucide-react';
+import { Users, Plus, Mail, Phone, Calendar, Search, MoreVertical, MessageSquare, Crown, Shield, User as UserIcon, TrendingUp } from 'lucide-react';
 import { useState, use } from 'react';
 import BackButton from '@/components/common/back-button';
 
@@ -25,7 +25,7 @@ interface Member {
 }
 
 export default function ProjectMembersPage({ params }: ProjectMembersPageProps) {
-  const { id } = use(params);
+  use(params); // id non utilisé
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [showMobileActions, setShowMobileActions] = useState<string | null>(null);
@@ -189,7 +189,7 @@ export default function ProjectMembersPage({ params }: ProjectMembersPageProps) 
               Membres du projet
             </h1>
             <p className="text-sm sm:text-base text-gray-600 mt-1">
-              Gérez l'équipe de votre projet
+              Gérez l&apos;équipe de votre projet
             </p>
           </div>
         </div>

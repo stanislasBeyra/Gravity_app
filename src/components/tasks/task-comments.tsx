@@ -24,7 +24,7 @@ interface Comment {
 
 interface TaskCommentsProps {
   comments: Comment[];
-  currentUser: any;
+  currentUser: { id: string; firstname: string; lastname: string; avatar?: string } | null;
   onAddComment?: (content: string) => void;
   onDeleteComment?: (commentId: string) => void;
   className?: string;

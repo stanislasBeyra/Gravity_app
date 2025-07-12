@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
-import { ApiResponse, ApiConfig } from '@/types/api'
+import { ApiConfig } from '@/types/api'
 
 // API Configuration
 const apiConfig: ApiConfig = {
@@ -39,77 +39,77 @@ api.interceptors.response.use(
 
 // Auth API
 export const authApi = {
-  login: (credentials: any) => api.post('/auth/login', credentials),
-  register: (userData: any) => api.post('/auth/register', userData),
+  login: (credentials: { email: string; password: string }) => api.post('/auth/login', credentials),
+  register: (userData: { email: string; password: string; firstname: string; lastname: string }) => api.post('/auth/register', userData),
   logout: () => api.post('/auth/logout'),
   me: () => api.get('/auth/me'),
-  changePassword: (data: any) => api.post('/auth/change-password', data),
+  changePassword: (data: { currentPassword: string; newPassword: string }) => api.post('/auth/change-password', data),
   forgotPassword: (email: string) => api.post('/auth/forgot-password', { email }),
-  resetPassword: (data: any) => api.post('/auth/reset-password', data),
+  resetPassword: (data: { token: string; password: string }) => api.post('/auth/reset-password', data),
   refreshToken: (refreshToken: string) => api.post('/auth/refresh', { refreshToken }),
 }
 
 // Notifications API
 export const notificationsApi = {
-  getAll: (filters?: any) => api.get('/notifications', { params: filters }),
+  getAll: (filters?: Record<string, unknown>) => api.get('/notifications', { params: filters }),
   getUnreadCount: () => api.get('/notifications/unread-count'),
   getSettings: () => api.get('/notifications/settings'),
   markAsRead: (id: string) => api.patch(`/notifications/${id}/read`),
   markAllAsRead: () => api.patch('/notifications/mark-all-read'),
   delete: (id: string) => api.delete(`/notifications/${id}`),
   deleteAll: () => api.delete('/notifications'),
-  updateSettings: (data: any) => api.put('/notifications/settings', data),
+  updateSettings: (data: Record<string, unknown>) => api.put('/notifications/settings', data),
   sendTest: () => api.post('/notifications/test'),
 }
 
 // Groups API
 export const groupsApi = {
-  getAll: (filters?: any) => api.get('/groups', { params: filters }),
+  getAll: (filters?: Record<string, unknown>) => api.get('/groups', { params: filters }),
   getById: (id: string) => api.get(`/groups/${id}`),
-  create: (data: any) => api.post('/groups', data),
-  update: (id: string, data: any) => api.put(`/groups/${id}`, data),
+  create: (data: { name: string; description?: string }) => api.post('/groups', data),
+  update: (id: string, data: { name?: string; description?: string }) => api.put(`/groups/${id}`, data),
   delete: (id: string) => api.delete(`/groups/${id}`),
-  addMember: (id: string, data: any) => api.post(`/groups/${id}/members`, data),
+  addMember: (id: string, data: { userId: string; role?: string }) => api.post(`/groups/${id}/members`, data),
   removeMember: (groupId: string, memberId: string) => api.delete(`/groups/${groupId}/members/${memberId}`),
   getStats: (id: string) => api.get(`/groups/${id}/stats`),
 }
 
 // Projects API
 export const projectsApi = {
-  getAll: (filters?: any) => api.get('/projects', { params: filters }),
+  getAll: (filters?: Record<string, unknown>) => api.get('/projects', { params: filters }),
   getById: (id: string) => api.get(`/projects/${id}`),
-  create: (data: any) => api.post('/projects', data),
-  update: (id: string, data: any) => api.put(`/projects/${id}`, data),
+  create: (data: { name: string; description?: string; groupId?: string }) => api.post('/projects', data),
+  update: (id: string, data: { name?: string; description?: string }) => api.put(`/projects/${id}`, data),
   delete: (id: string) => api.delete(`/projects/${id}`),
-  addMember: (id: string, data: any) => api.post(`/projects/${id}/members`, data),
+  addMember: (id: string, data: { userId: string; role?: string }) => api.post(`/projects/${id}/members`, data),
   removeMember: (projectId: string, memberId: string) => api.delete(`/projects/${projectId}/members/${memberId}`),
   getStats: (id: string) => api.get(`/projects/${id}/stats`),
 }
 
 // Tasks API
 export const tasksApi = {
-  getAll: (filters?: any) => api.get('/tasks', { params: filters }),
+  getAll: (filters?: Record<string, unknown>) => api.get('/tasks', { params: filters }),
   getById: (id: string) => api.get(`/tasks/${id}`),
-  create: (data: any) => api.post('/tasks', data),
-  update: (id: string, data: any) => api.put(`/tasks/${id}`, data),
+  create: (data: { title: string; description?: string; projectId?: string; assigneeId?: string; priority?: string; status?: string }) => api.post('/tasks', data),
+  update: (id: string, data: { title?: string; description?: string; assigneeId?: string; priority?: string; status?: string }) => api.put(`/tasks/${id}`, data),
   delete: (id: string) => api.delete(`/tasks/${id}`),
-  addComment: (id: string, data: any) => api.post(`/tasks/${id}/comments`, data),
+  addComment: (id: string, data: { content: string }) => api.post(`/tasks/${id}/comments`, data),
   getComments: (id: string) => api.get(`/tasks/${id}/comments`),
   getStats: () => api.get('/tasks/stats'),
 }
 
 // Messages API
 export const messagesApi = {
-  getGroupMessages: (groupId: string, filters?: any) => api.get(`/messages/groups/${groupId}`, { params: filters }),
-  getProjectMessages: (projectId: string, filters?: any) => api.get(`/messages/projects/${projectId}`, { params: filters }),
-  sendGroupMessage: (groupId: string, data: any) => api.post(`/messages/groups/${groupId}`, data),
-  sendProjectMessage: (projectId: string, data: any) => api.post(`/messages/projects/${projectId}`, data),
+  getGroupMessages: (groupId: string, filters?: Record<string, unknown>) => api.get(`/messages/groups/${groupId}`, { params: filters }),
+  getProjectMessages: (projectId: string, filters?: Record<string, unknown>) => api.get(`/messages/projects/${projectId}`, { params: filters }),
+  sendGroupMessage: (groupId: string, data: { content: string; type?: string }) => api.post(`/messages/groups/${groupId}`, data),
+  sendProjectMessage: (projectId: string, data: { content: string; type?: string }) => api.post(`/messages/projects/${projectId}`, data),
 }
 
 // Users API
 export const usersApi = {
   getProfile: () => api.get('/users/profile'),
-  updateProfile: (data: any) => api.put('/users/profile', data),
+  updateProfile: (data: { firstname?: string; lastname?: string; avatar?: string }) => api.put('/users/profile', data),
   search: (query: string) => api.get('/users/search', { params: { q: query } }),
   getStats: () => api.get('/users/stats'),
 }

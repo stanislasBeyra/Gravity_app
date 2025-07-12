@@ -1,36 +1,42 @@
 'use client';
 
-import { useEffect } from 'react';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { AlertTriangle } from 'lucide-react';
 
-export default function Error({
-  error,
-  reset,
-}: {
+interface ErrorProps {
   error: Error & { digest?: string };
   reset: () => void;
-}) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
+}
 
+export default function Error({ error, reset }: ErrorProps) {
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="flex flex-col items-center space-y-4 text-center">
-        <AlertTriangle className="h-12 w-12 text-red-500" />
-        <h2 className="text-xl font-semibold text-gray-900">
-          Une erreur s'est produite
-        </h2>
-        <p className="text-gray-600 max-w-md">
-          Désolé, quelque chose s'est mal passé. Veuillez réessayer.
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <AlertTriangle className="h-8 w-8 text-red-600" />
+        </div>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">Une erreur s&apos;est produite</h1>
+        <p className="text-gray-600 mb-6">
+          Désolé, quelque chose s&apos;est mal passé. Veuillez réessayer.
         </p>
-        <button
-          onClick={reset}
-          className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          <RefreshCw className="h-4 w-4" />
-          <span>Réessayer</span>
-        </button>
+        <div className="space-y-3">
+          <Button onClick={reset} className="w-full">
+            Réessayer
+          </Button>
+          <Button variant="outline" onClick={() => window.history.back()} className="w-full">
+            Retour
+          </Button>
+        </div>
+        {process.env.NODE_ENV === 'development' && (
+          <details className="mt-6 text-left">
+            <summary className="cursor-pointer text-sm text-gray-500 hover:text-gray-700">
+              Détails de l&apos;erreur
+            </summary>
+            <pre className="mt-2 text-xs text-red-600 bg-red-50 p-3 rounded overflow-auto">
+              {error.message}
+            </pre>
+          </details>
+        )}
       </div>
     </div>
   );

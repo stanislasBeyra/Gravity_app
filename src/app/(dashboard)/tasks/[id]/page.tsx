@@ -1,15 +1,15 @@
 import Link from 'next/link';
-import { CheckSquare, User, Calendar, AlertTriangle, MessageSquare, Edit } from 'lucide-react';
+import { use } from 'react';
+import { CheckSquare, User, Calendar, AlertTriangle, Edit } from 'lucide-react';
 
 interface TaskPageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 export default function TaskPage({ params }: TaskPageProps) {
+  const { id } = use(params);
   const mockTask = {
-    id: params.id,
+    id: id,
     title: 'Créer la maquette de la page d\'accueil',
     description: 'Designer la maquette de la nouvelle page d\'accueil avec une interface moderne et responsive.',
     status: 'En cours',
@@ -55,7 +55,7 @@ export default function TaskPage({ params }: TaskPageProps) {
         </div>
         <div className="flex space-x-2">
           <Link
-            href={`/tasks/${params.id}/edit`}
+            href={`/tasks/${id}/edit`}
             className="flex items-center space-x-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
           >
             <Edit className="h-4 w-4" />
@@ -109,7 +109,7 @@ export default function TaskPage({ params }: TaskPageProps) {
               <div className="flex items-center space-x-3">
                 <Calendar className="h-5 w-5 text-gray-400" />
                 <div>
-                  <p className="text-sm font-medium text-gray-900">Date d'échéance</p>
+                  <p className="text-sm font-medium text-gray-900">Date d&apos;échéance</p>
                   <p className="text-sm text-gray-600">{new Date(mockTask.dueDate).toLocaleDateString('fr-FR')}</p>
                 </div>
               </div>

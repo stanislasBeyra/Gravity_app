@@ -1,6 +1,4 @@
 import { User } from './user'
-import { Group } from './group'
-import { Project } from './project'
 
 export type MessageType = 'text' | 'file' | 'image' | 'system' | 'group' | 'project';
 

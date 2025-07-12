@@ -1,10 +1,12 @@
 'use client';
 
-import { createContext, useContext, useEffect, ReactNode } from 'react';
+import { createContext, useContext, ReactNode } from 'react';
 import { useSocket } from '@/hooks/use-socket';
+import { Socket } from 'socket.io-client';
+import { SocketMessage, TypingData, ConnectedUser } from '@/types/socket';
 
 interface SocketContextType {
-  socket: any;
+  socket: Socket | null;
   isConnected: boolean;
   sendGroupMessage: (groupId: string, message: string) => void;
   sendProjectMessage: (projectId: string, message: string) => void;
@@ -12,12 +14,12 @@ interface SocketContextType {
   leaveRoom: (type: 'group' | 'project', id: string) => void;
   startTyping: (type: 'group' | 'project', id: string) => void;
   stopTyping: (type: 'group' | 'project', id: string) => void;
-  onGroupMessage: (callback: (message: any) => void) => void;
-  onProjectMessage: (callback: (message: any) => void) => void;
-  onUserTyping: (callback: (data: any) => void) => void;
-  onUserConnected: (callback: (user: any) => void) => void;
-  onUserDisconnected: (callback: (user: any) => void) => void;
-  onNotification: (callback: (notification: any) => void) => void;
+  onGroupMessage: (callback: (message: SocketMessage) => void) => void;
+  onProjectMessage: (callback: (message: SocketMessage) => void) => void;
+  onUserTyping: (callback: (data: TypingData) => void) => void;
+  onUserConnected: (callback: (user: ConnectedUser) => void) => void;
+  onUserDisconnected: (callback: (user: ConnectedUser) => void) => void;
+  onNotification: (callback: (notification: { id: string; message: string; type: string }) => void) => void;
 }
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);

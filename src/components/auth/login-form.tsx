@@ -27,7 +27,8 @@ export function LoginForm() {
       await login({ email, password });
       router.push('/dashboard');
     } catch (err) {
-      setError('Email ou mot de passe incorrect');
+      console.error('Erreur de connexion:', err);
+      setError('Identifiants invalides');
     } finally {
       setIsLoading(false);
     }
@@ -37,7 +38,9 @@ export function LoginForm() {
     <Card className="w-full max-w-md p-6 space-y-6">
       <div className="text-center space-y-2">
         <h1 className="text-2xl font-bold text-gray-900">Connexion</h1>
-        <p className="text-gray-600">Connectez-vous à votre compte Gruvity</p>
+        <p className="text-sm text-gray-600">
+          Connectez-vous à votre compte pour continuer
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -111,7 +114,7 @@ export function LoginForm() {
               href="/register"
               className="text-blue-600 hover:text-blue-800 font-medium"
             >
-              S'inscrire
+              S&apos;inscrire
             </a>
           </p>
         </div>

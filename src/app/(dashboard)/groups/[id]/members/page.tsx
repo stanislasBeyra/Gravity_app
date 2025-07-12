@@ -1,6 +1,6 @@
 'use client';
 
-import { Users, Plus, Mail, Phone, MoreVertical, Search, Filter, Crown, Shield, User as UserIcon } from 'lucide-react';
+import { Users, Plus, Mail, Phone, MoreVertical, Search, Crown, Shield, User as UserIcon } from 'lucide-react';
 import { useState, use } from 'react';
 import BackButton from '@/components/common/back-button';
 
@@ -11,7 +11,7 @@ interface GroupMembersPageProps {
 }
 
 export default function GroupMembersPage({ params }: GroupMembersPageProps) {
-  const { id } = use(params);
+  use(params); // id non utilisé
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState('all');
   const [showMobileActions, setShowMobileActions] = useState<string | null>(null);
@@ -367,4 +367,4 @@ export default function GroupMembersPage({ params }: GroupMembersPageProps) {
       </div>
     </div>
   );
-}
+} 

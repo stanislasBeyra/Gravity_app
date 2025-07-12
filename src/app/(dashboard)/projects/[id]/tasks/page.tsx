@@ -5,11 +5,9 @@ import { use, useState } from 'react';
 import { 
   CheckSquare, 
   Plus, 
-  User, 
   Calendar, 
   AlertTriangle, 
   Search, 
-  Filter,
   Clock,
   Target,
   TrendingUp,
@@ -47,13 +45,12 @@ export default function ProjectTasksPage({ params }: ProjectTasksPageProps) {
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterPriority, setFilterPriority] = useState('all');
   const [showMobileActions, setShowMobileActions] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<'list' | 'kanban'>('list');
 
   const mockTasks: Task[] = [
     {
       id: '1',
-      title: 'Créer la maquette de la page d\'accueil',
-      description: 'Designer la maquette de la nouvelle page d\'accueil avec les nouvelles spécifications UX',
+      title: 'Créer la maquette de la page d&apos;accueil',
+      description: 'Designer la maquette de la nouvelle page d&apos;accueil avec les nouvelles spécifications UX',
       status: 'En cours',
       priority: 'Haute',
       assignee: 'Jane Smith',
@@ -66,8 +63,8 @@ export default function ProjectTasksPage({ params }: ProjectTasksPageProps) {
     },
     {
       id: '2',
-      title: 'Implémenter l\'authentification',
-      description: 'Développer le système d\'authentification JWT avec refresh tokens',
+      title: 'Implémenter l&apos;authentification',
+      description: 'Développer le système d&apos;authentification JWT avec refresh tokens',
       status: 'À faire',
       priority: 'Moyenne',
       assignee: 'Bob Johnson',
@@ -94,8 +91,8 @@ export default function ProjectTasksPage({ params }: ProjectTasksPageProps) {
     },
     {
       id: '4',
-      title: 'Développer l\'API REST',
-      description: 'Créer les endpoints de l\'API backend avec documentation Swagger',
+      title: 'Développer l&apos;API REST',
+      description: 'Créer les endpoints de l&apos;API backend avec documentation Swagger',
       status: 'En cours',
       priority: 'Haute',
       assignee: 'Alice Brown',
@@ -108,8 +105,8 @@ export default function ProjectTasksPage({ params }: ProjectTasksPageProps) {
     },
     {
       id: '5',
-      title: 'Tests d\'intégration',
-      description: 'Écrire et exécuter les tests d\'intégration pour l\'ensemble du système',
+      title: 'Tests d&apos;intégration',
+      description: 'Écrire et exécuter les tests d&apos;intégration pour l&apos;ensemble du système',
       status: 'En attente',
       priority: 'Critique',
       assignee: 'Charlie Wilson',
@@ -201,14 +198,6 @@ export default function ProjectTasksPage({ params }: ProjectTasksPageProps) {
 
   const isOverdue = (dueDate: string) => {
     return new Date(dueDate) < new Date();
-  };
-
-  const getDaysUntilDue = (dueDate: string) => {
-    const today = new Date();
-    const due = new Date(dueDate);
-    const diffTime = due.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
   };
 
   const taskStats = {

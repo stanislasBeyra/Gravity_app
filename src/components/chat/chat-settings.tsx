@@ -20,10 +20,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Settings, Bell, Volume2, VolumeX, MessageSquare, Users } from 'lucide-react';
+import { Bell, Settings, Users, MessageSquare } from 'lucide-react';
 
 interface ChatSettingsProps {
-  roomId: string;
   roomName: string;
   onSettingsChange?: (settings: ChatSettings) => void;
 }
@@ -48,7 +47,6 @@ interface ChatSettings {
 }
 
 export function ChatSettings({
-  roomId,
   roomName,
   onSettingsChange,
 }: ChatSettingsProps) {
@@ -74,7 +72,7 @@ export function ChatSettings({
   const handleSettingChange = (
     category: keyof ChatSettings,
     key: string,
-    value: any
+    value: boolean | string
   ) => {
     const newSettings = {
       ...settings,

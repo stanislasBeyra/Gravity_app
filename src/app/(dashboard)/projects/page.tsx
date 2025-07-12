@@ -1,14 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { Plus, Folder, Calendar, Users, Clock, Search, Filter, TrendingUp, AlertCircle, CheckCircle } from 'lucide-react';
+import { Plus, Folder, Calendar, Users, Clock, Search, TrendingUp, AlertCircle, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
 import BackButton from '@/components/common/back-button';
 
 export default function ProjectsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const mockProjects = [
     {

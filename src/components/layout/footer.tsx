@@ -80,7 +80,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link href="/help" className="hover:text-foreground transition-colors">
-                  Centre d'aide
+                  Centre d&apos;aide
                 </Link>
               </li>
               <li>
@@ -98,7 +98,7 @@ export function Footer() {
         </div>
 
         <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-gray-500">
             © 2024 Gruvity. Tous droits réservés.
           </p>
           <div className="flex items-center space-x-4 mt-4 md:mt-0">

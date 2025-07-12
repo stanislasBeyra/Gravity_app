@@ -28,15 +28,15 @@ class SocketManager {
   // Événements de connexion
   private onConnectCallbacks: (() => void)[] = []
   private onDisconnectCallbacks: (() => void)[] = []
-  private onErrorCallbacks: ((error: any) => void)[] = []
+  private onErrorCallbacks: ((error: { message?: string }) => void)[] = []
 
   // Événements de messages
-  private onGroupMessageCallbacks: ((message: any) => void)[] = []
-  private onProjectMessageCallbacks: ((message: any) => void)[] = []
-  private onUserTypingCallbacks: ((data: any) => void)[] = []
-  private onUserConnectedCallbacks: ((user: any) => void)[] = []
-  private onUserDisconnectedCallbacks: ((user: any) => void)[] = []
-  private onNotificationCallbacks: ((notification: any) => void)[] = []
+  private onGroupMessageCallbacks: ((message: { id: string; content: string; sender: { id: string; name: string }; timestamp: string }) => void)[] = []
+  private onProjectMessageCallbacks: ((message: { id: string; content: string; sender: { id: string; name: string }; timestamp: string }) => void)[] = []
+  private onUserTypingCallbacks: ((data: { userId: string; isTyping: boolean; roomId: string }) => void)[] = []
+  private onUserConnectedCallbacks: ((user: { id: string; name: string; avatar?: string }) => void)[] = []
+  private onUserDisconnectedCallbacks: ((user: { id: string; name: string; avatar?: string }) => void)[] = []
+  private onNotificationCallbacks: ((notification: { id: string; message: string; type: string }) => void)[] = []
 
   constructor() {
     // Ne pas initialiser les event listeners côté serveur
@@ -94,32 +94,32 @@ class SocketManager {
     this.onDisconnectCallbacks.push(callback)
   }
 
-  onError(callback: (error: any) => void): void {
+  onError(callback: (error: { message?: string }) => void): void {
     this.onErrorCallbacks.push(callback)
   }
 
   // Événements de messages
-  onGroupMessage(callback: (message: any) => void): void {
+  onGroupMessage(callback: (message: { id: string; content: string; sender: { id: string; name: string }; timestamp: string }) => void): void {
     this.onGroupMessageCallbacks.push(callback)
   }
 
-  onProjectMessage(callback: (message: any) => void): void {
+  onProjectMessage(callback: (message: { id: string; content: string; sender: { id: string; name: string }; timestamp: string }) => void): void {
     this.onProjectMessageCallbacks.push(callback)
   }
 
-  onUserTyping(callback: (data: any) => void): void {
+  onUserTyping(callback: (data: { userId: string; isTyping: boolean; roomId: string }) => void): void {
     this.onUserTypingCallbacks.push(callback)
   }
 
-  onUserConnected(callback: (user: any) => void): void {
+  onUserConnected(callback: (user: { id: string; name: string; avatar?: string }) => void): void {
     this.onUserConnectedCallbacks.push(callback)
   }
 
-  onUserDisconnected(callback: (user: any) => void): void {
+  onUserDisconnected(callback: (user: { id: string; name: string; avatar?: string }) => void): void {
     this.onUserDisconnectedCallbacks.push(callback)
   }
 
-  onNotification(callback: (notification: any) => void): void {
+  onNotification(callback: (notification: { id: string; message: string; type: string }) => void): void {
     this.onNotificationCallbacks.push(callback)
   }
 
@@ -283,7 +283,7 @@ class SocketManager {
   }
 
   // Méthodes utilitaires
-  emit(event: string, data?: any): void {
+  emit(event: string, data?: unknown): void {
     if (this.socket?.connected) {
       this.socket.emit(event, data)
     }

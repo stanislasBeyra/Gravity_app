@@ -51,7 +51,7 @@ export function usePushNotifications() {
       setIsPermissionGranted(true)
       toast.success('Notifications push activées')
     },
-    onError: (error: any) => {
+    onError: (error: { message?: string }) => {
       toast.error(error.message || 'Erreur lors de l\'activation des notifications')
     },
   })
@@ -62,7 +62,7 @@ export function usePushNotifications() {
       setIsSubscribed(false)
       toast.success('Notifications push désactivées')
     },
-    onError: (error: any) => {
+    onError: (error: { message?: string }) => {
       toast.error(error.message || 'Erreur lors de la désactivation')
     },
   })
@@ -72,7 +72,7 @@ export function usePushNotifications() {
     onSuccess: () => {
       toast.success('Notification de test envoyée')
     },
-    onError: (error: any) => {
+    onError: (error: { response?: { data?: { message?: string } } }) => {
       toast.error(error.response?.data?.message || 'Erreur lors de l\'envoi du test')
     },
   })

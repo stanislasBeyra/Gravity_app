@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { use, useState } from 'react';
 import { 
   Folder, 
-  Calendar, 
   Users, 
   Settings, 
   MessageSquare, 
@@ -12,9 +11,6 @@ import {
   TrendingUp, 
   MoreVertical,
   Clock,
-  Target,
-  Activity,
-  Star,
   AlertTriangle
 } from 'lucide-react';
 import BackButton from '@/components/common/back-button';
@@ -32,7 +28,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const mockProject = {
     id: id,
     name: 'Refonte Site Web',
-    description: 'Refonte complète du site web de l\'entreprise avec une interface moderne et responsive. Le projet inclut la conception, le développement frontend et backend, ainsi que l\'intégration avec les systèmes existants.',
+    description: 'Refonte complète du site web de l&apos;entreprise avec une interface moderne et responsive. Le projet inclut la conception, le développement frontend et backend, ainsi que l&apos;intégration avec les systèmes existants.',
     status: 'En cours',
     progress: 65,
     startDate: '2024-01-15',
@@ -51,10 +47,10 @@ export default function ProjectPage({ params }: ProjectPageProps) {
       { id: '4', name: 'Alice Brown', role: 'Développeur Backend', avatar: 'AB', status: 'online' }
     ],
     recentTasks: [
-      { id: '1', title: 'Créer la maquette de la page d\'accueil', status: 'En cours', assignee: 'Jane Smith', priority: 'high' },
-      { id: '2', title: 'Implémenter l\'authentification', status: 'À faire', assignee: 'Bob Johnson', priority: 'medium' },
+      { id: '1', title: 'Créer la maquette de la page d&apos;accueil', status: 'En cours', assignee: 'Jane Smith', priority: 'high' },
+      { id: '2', title: 'Implémenter l&apos;authentification', status: 'À faire', assignee: 'Bob Johnson', priority: 'medium' },
       { id: '3', title: 'Configurer la base de données', status: 'Terminé', assignee: 'John Doe', priority: 'high' },
-      { id: '4', title: 'Tests d\'intégration API', status: 'En cours', assignee: 'Alice Brown', priority: 'low' }
+      { id: '4', title: 'Tests d&apos;intégration API', status: 'En cours', assignee: 'Alice Brown', priority: 'low' }
     ],
     timeline: [
       { date: '2024-01-15', event: 'Projet démarré', type: 'milestone' },

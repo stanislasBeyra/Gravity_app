@@ -10,13 +10,11 @@ import { useAuth } from '@/hooks/use-auth';
 
 interface MessageListProps {
   messages: Message[];
-  currentUser?: User;
   onMessageClick?: (message: Message) => void;
 }
 
 export function MessageList({
   messages,
-  currentUser,
   onMessageClick,
 }: MessageListProps) {
   const { user } = useAuth();
@@ -49,7 +47,7 @@ export function MessageList({
     return groups;
   };
 
-  const getSenderName = (sender: any) => {
+  const getSenderName = (sender: User) => {
     return sender.name || `${sender.firstname} ${sender.lastname}`;
   };
 

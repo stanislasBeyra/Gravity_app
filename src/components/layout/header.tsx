@@ -5,10 +5,9 @@ import { useState, useEffect, useRef } from 'react';
 
 interface HeaderProps {
   onMenuClick: () => void;
-  sidebarOpen: boolean;
 }
 
-export function Header({ onMenuClick, sidebarOpen }: HeaderProps) {
+export function Header({ onMenuClick }: HeaderProps) {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSearchMobile, setShowSearchMobile] = useState(false);
@@ -66,6 +65,9 @@ export function Header({ onMenuClick, sidebarOpen }: HeaderProps) {
               <h1 className="text-base sm:text-lg font-semibold text-gray-900 truncate">
                 Tableau de bord
               </h1>
+              <p className="text-sm text-gray-600">
+                Gérez vos projets et tâches efficacement
+              </p>
             </div>
           </div>
 
@@ -129,7 +131,7 @@ export function Header({ onMenuClick, sidebarOpen }: HeaderProps) {
                       <p className="text-xs text-gray-500 mt-1">Il y a 1 heure</p>
                     </div>
                     <div className="px-4 py-3 hover:bg-gray-50 cursor-pointer">
-                      <p className="text-sm text-gray-900">Nouveau membre dans l'équipe</p>
+                      <p className="text-sm text-gray-900">Nouveau membre dans l&apos;équipe</p>
                       <p className="text-xs text-gray-500 mt-1">Il y a 2 heures</p>
                     </div>
                   </div>

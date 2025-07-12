@@ -8,7 +8,7 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Tableau de bord</h1>
-        <p className="text-gray-600">Vue d'ensemble de vos projets et tâches</p>
+        <p className="text-gray-600">Vue d&apos;ensemble de vos projets et tâches</p>
       </div>
 
       <StatsCards />

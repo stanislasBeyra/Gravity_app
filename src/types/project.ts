@@ -1,5 +1,6 @@
 import { User } from './user'
 import { Group } from './group'
+import { Task } from './task'
 
 export interface Project {
   id: string
@@ -13,6 +14,8 @@ export interface Project {
   tasks: Task[]
   createdAt: string
   status?: 'active' | 'completed' | 'archived';
+  startDate?: string;
+  endDate?: string;
   _count: {
     members: number
     tasks: number
@@ -59,6 +62,4 @@ export interface ProjectStats {
   overdueTasks: number
   totalMembers: number
   completionRate: number
-}
-
-import { Task, TaskStatus, TaskPriority, TaskComment } from './task' 
+} 

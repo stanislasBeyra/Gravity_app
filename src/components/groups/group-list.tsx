@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Plus, Search, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
+
 import { GroupCard } from './group-card';
 import { EmptyState } from '@/components/common/empty-state';
 import { Group } from '@/types/group';
@@ -35,17 +35,6 @@ export function GroupList({
     
     return matchesSearch && matchesFilter;
   });
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'active':
-        return <Badge variant="success">Actif</Badge>;
-      case 'archived':
-        return <Badge variant="secondary">Archivé</Badge>;
-      default:
-        return <Badge variant="outline">{status}</Badge>;
-    }
-  };
 
   if (loading) {
     return (
@@ -115,7 +104,7 @@ export function GroupList({
           {filteredGroups.length} groupe{filteredGroups.length !== 1 ? 's' : ''} trouvé{filteredGroups.length !== 1 ? 's' : ''}
         </span>
         {searchQuery && (
-          <span>pour "{searchQuery}"</span>
+          <span>pour &quot;{searchQuery}&quot;</span>
         )}
       </div>
 
@@ -136,8 +125,8 @@ export function GroupList({
           title="Aucun groupe trouvé"
           description={
             searchQuery
-              ? `Aucun groupe ne correspond à "${searchQuery}"`
-              : "Vous n'avez pas encore créé de groupes"
+              ? `Aucun groupe ne correspond à &quot;${searchQuery}&quot;`
+              : "Vous n&apos;avez pas encore créé de groupes"
           }
           actionLabel={onCreateGroup ? "Créer un groupe" : undefined}
           onAction={onCreateGroup}
