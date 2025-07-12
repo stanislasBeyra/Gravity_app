@@ -1,0 +1,112 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { api } from '@/lib/api'
+import { ApiResponse, RequestConfig } from '@/types/api'
+import toast from 'react-hot-toast'
+
+interface UseApiQueryOptions<T> {
+  queryKey: string[]
+  url: string
+  params?: any
+  enabled?: boolean
+  staleTime?: number
+  refetchInterval?: number
+  onSuccess?: (data: T) => void
+  onError?: (error: any) => void
+}
+
+export function useApiQuery<T = any>({
+  queryKey,
+  url,
+  params,
+  enabled = true,
+  staleTime = 5 * 60 * 1000,
+  refetchInterval,
+  onSuccess,
+  onError,
+}: UseApiQueryOptions<T>) {
+  const query = useQuery({
+    queryKey,
+    queryFn: () => api.get(url, { params }).then(res => res.data.data),
+    enabled,
+    staleTime,
+    refetchInterval,
+  })
+
+  useEffect(() => {
+    if (query.data && onSuccess) {
+      onSuccess(query.data)
+    }
+  }, [query.data, onSuccess])
+
+  useEffect(() => {
+    if (query.error && onError) {
+      onError(query.error)
+    }
+  }, [query.error, onError])
+
+  return query
+}
+
+interface UseApiMutationOptions<TData = any, TVariables = any> {
+  url: string
+  method?: 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+  onSuccess?: (data: TData, variables: TVariables) => void
+  onError?: (error: any) => void
+  successMessage?: string
+  errorMessage?: string
+  invalidateQueries?: string[][]
+}
+
+export function useApiMutation<TData = any, TVariables = any>({
+  url,
+  method = 'POST',
+  onSuccess,
+  onError,
+  successMessage,
+  errorMessage,
+  invalidateQueries = [],
+}: UseApiMutationOptions<TData, TVariables>) {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (variables: TVariables) => {
+      const config: RequestConfig = {
+        method,
+        url,
+        data: variables,
+      }
+      
+      switch (method) {
+        case 'POST':
+          return api.post(url, variables)
+        case 'PUT':
+          return api.put(url, variables)
+        case 'PATCH':
+          return api.patch(url, variables)
+        case 'DELETE':
+          return api.delete(url)
+        default:
+          throw new Error(`Unsupported method: ${method}`)
+      }
+    },
+    onSettled: (response, error, variables) => {
+      if (!error && response) {
+        if (successMessage) {
+          toast.success(successMessage)
+        }
+        
+        // Invalider les queries spécifiées
+        invalidateQueries.forEach(queryKey => {
+          queryClient.invalidateQueries({ queryKey })
+        })
+        
+        onSuccess?.(response.data.data, variables)
+      } else if (error) {
+        const message = (error as any).response?.data?.message || errorMessage || 'Une erreur est survenue'
+        toast.error(message)
+        onError?.(error)
+      }
+    },
+  })
+} 
