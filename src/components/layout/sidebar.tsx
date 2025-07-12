@@ -86,10 +86,9 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
         className={cn(
           "fixed top-0 left-0 z-30 h-screen transition-all duration-300 bg-white border-r border-gray-200 shadow-lg flex flex-col",
           // Responsive behavior
-          "md:translate-x-0", // Toujours visible sur desktop
           isOpen 
-            ? "w-56 sm:w-64 translate-x-0" // Plus étroite sur mobile
-            : "w-56 sm:w-64 -translate-x-full md:w-14 lg:w-16 md:translate-x-0"
+            ? "w-56 sm:w-64 translate-x-0" // Ouverte sur mobile et desktop
+            : "w-56 sm:w-64 -translate-x-full md:w-14 lg:w-16 md:translate-x-0" // Cachée sur mobile, mini sur desktop
         )}
       >
         {/* Header de la sidebar */}
