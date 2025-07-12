@@ -2,11 +2,11 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Send, Paperclip, Smile, X } from 'lucide-react';
+import { Send, Paperclip, X } from 'lucide-react';
 import { Message } from '@/types/message';
+import { EmojiPickerButton } from './emoji-picker';
 
 interface MessageInputProps {
   onSendMessage: (content: string, attachments?: File[]) => void;
@@ -22,14 +22,15 @@ export function MessageInput({
   onTyping,
   replyTo,
   onCancelReply,
-  placeholder = "Type a message...",
+  placeholder = "Tapez votre message...",
   disabled = false,
 }: MessageInputProps) {
   const [message, setMessage] = useState('');
   const [attachments, setAttachments] = useState<File[]>([]);
   const [isTyping, setIsTyping] = useState(false);
+  const [textareaHeight, setTextareaHeight] = useState(40);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -48,6 +49,15 @@ export function MessageInput({
       setIsTyping(true);
       onTyping?.(true);
     }
+    
+    // Auto-resize textarea
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      const scrollHeight = textareaRef.current.scrollHeight;
+      const newHeight = Math.min(Math.max(scrollHeight, 40), 120);
+      setTextareaHeight(newHeight);
+      textareaRef.current.style.height = `${newHeight}px`;
+    }
   };
 
   const handleSend = () => {
@@ -57,7 +67,13 @@ export function MessageInput({
     setMessage('');
     setAttachments([]);
     setIsTyping(false);
+    setTextareaHeight(40);
     onTyping?.(false);
+    
+    // Reset textarea height
+    if (textareaRef.current) {
+      textareaRef.current.style.height = '40px';
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -89,106 +105,124 @@ export function MessageInput({
   };
 
   return (
-    <div className="border-t p-4 space-y-3">
-      {/* Reply indicator */}
-      {replyTo && (
-        <div className="flex items-center justify-between p-2 bg-muted/50 rounded border-l-2 border-primary">
-          <div className="flex items-center space-x-2">
-            <Avatar className="h-6 w-6">
-              <AvatarImage src={replyTo.sender.avatar} />
-              <AvatarFallback>
-                {getSenderName(replyTo.sender)?.charAt(0).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="text-sm">
-              <span className="font-medium">Replying to {getSenderName(replyTo.sender)}</span>
-              <div className="text-muted-foreground truncate max-w-xs">
-                {replyTo.content}
+    <div className="bg-white border-t border-gray-200 p-3 sm:p-4 flex-shrink-0">
+      <div className="space-y-3">
+        {/* Reply indicator */}
+        {replyTo && (
+          <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+            <div className="flex items-center space-x-2 min-w-0 flex-1">
+              <Avatar className="h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0">
+                <AvatarImage src={replyTo.sender.avatar} />
+                <AvatarFallback className="text-xs">
+                  {getSenderName(replyTo.sender)?.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <div className="text-xs sm:text-sm min-w-0 flex-1">
+                <div className="font-medium text-gray-900 truncate">
+                  Réponse à {getSenderName(replyTo.sender)}
+                </div>
+                <div className="text-gray-500 truncate">
+                  {replyTo.content}
+                </div>
               </div>
             </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onCancelReply}
+              className="h-6 w-6 p-0 flex-shrink-0"
+            >
+              <X className="h-3 w-3" />
+            </Button>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onCancelReply}
-            className="h-6 w-6 p-0"
-          >
-            <X className="h-3 w-3" />
-          </Button>
-        </div>
-      )}
+        )}
 
-      {/* Attachments preview */}
-      {attachments.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {attachments.map((file, index) => (
-            <Badge key={index} variant="secondary" className="flex items-center space-x-1">
-              <span className="text-xs">{file.name}</span>
-              <span className="text-xs opacity-70">({formatFileSize(file.size)})</span>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => removeAttachment(index)}
-                className="h-4 w-4 p-0 ml-1"
-              >
-                <X className="h-2 w-2" />
-              </Button>
-            </Badge>
-          ))}
-        </div>
-      )}
+        {/* Attachments preview */}
+        {attachments.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {attachments.map((file, index) => (
+              <Badge key={index} variant="secondary" className="flex items-center space-x-1 max-w-full">
+                <span className="text-xs truncate max-w-24 sm:max-w-32">{file.name}</span>
+                <span className="text-xs opacity-70 flex-shrink-0">
+                  ({formatFileSize(file.size)})
+                </span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeAttachment(index)}
+                  className="h-4 w-4 p-0 ml-1 flex-shrink-0"
+                >
+                  <X className="h-2 w-2" />
+                </Button>
+              </Badge>
+            ))}
+          </div>
+        )}
 
-      {/* Input area */}
-      <div className="flex items-end space-x-2">
-        <div className="flex-1">
-          <Textarea
-            value={message}
-            onChange={(e) => handleMessageChange(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder={placeholder}
-            disabled={disabled}
-            className="min-h-[60px] max-h-[120px] resize-none"
-            rows={1}
-          />
-        </div>
-        
-        <div className="flex items-center space-x-1">
-          <input
-            ref={fileInputRef}
-            type="file"
-            multiple
-            onChange={handleFileSelect}
-            className="hidden"
-          />
-          
+        {/* Input area */}
+        <div className="flex items-end space-x-2 sm:space-x-3">
+          {/* Attachment button */}
           <Button
             variant="ghost"
             size="sm"
             onClick={() => fileInputRef.current?.click()}
             disabled={disabled}
-            className="h-10 w-10 p-0"
+            className="h-9 w-9 sm:h-10 sm:w-10 p-0 flex-shrink-0 mb-1"
           >
             <Paperclip className="h-4 w-4" />
           </Button>
           
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={disabled}
-            className="h-10 w-10 p-0"
-          >
-            <Smile className="h-4 w-4" />
-          </Button>
+          {/* Message input */}
+          <div className="flex-1 relative">
+            <textarea
+              ref={textareaRef}
+              value={message}
+              onChange={(e) => handleMessageChange(e.target.value)}
+              onKeyDown={handleKeyPress}
+              placeholder={placeholder}
+              disabled={disabled}
+              className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base resize-none leading-relaxed transition-all duration-200"
+              style={{
+                height: `${textareaHeight}px`,
+                minHeight: '40px',
+                maxHeight: '120px'
+              }}
+            />
+          </div>
           
+          {/* Emoji button */}
+          <EmojiPickerButton
+            onEmojiSelect={(emoji) => {
+              setMessage(prev => prev + emoji);
+              textareaRef.current?.focus();
+            }}
+            disabled={disabled}
+            buttonClassName="h-9 w-9 sm:h-10 sm:w-10 p-0 flex-shrink-0 mb-1"
+          />
+          
+          {/* Send button */}
           <Button
             onClick={handleSend}
             disabled={disabled || (!message.trim() && attachments.length === 0)}
-            className="h-10 w-10 p-0"
+            className="h-9 w-9 sm:h-10 sm:w-10 p-0 flex-shrink-0 mb-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
           >
             <Send className="h-4 w-4" />
           </Button>
         </div>
       </div>
+
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        multiple
+        onChange={handleFileSelect}
+        className="hidden"
+        accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt"
+      />
+      
+      {/* Safe area for mobile devices */}
+      <div className="h-safe-area-inset-bottom sm:hidden"></div>
     </div>
   );
-} 
+}
